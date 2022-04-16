@@ -8,6 +8,8 @@ echo "Deployment started ..."
 (php artisan down) || true
 
 # Pull the latest version of the app
+git config --global --add safe.directory /var/www/websites/makogai.xyz
+
 git pull origin main
 
 # Install composer dependencies
