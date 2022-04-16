@@ -24,4 +24,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd /var/www/websites/makogai.xyz && ./.scripts/deploy.sh"
+          script: "sudo -i && cd /var/www/websites/makogai.xyz && ./.scripts/deploy.sh"
