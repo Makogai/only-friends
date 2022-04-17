@@ -22,7 +22,7 @@ sudo php artisan clear-compiled
 sudo php artisan optimize
 
 # Use node v 17
-sudo nvm use 17
+nvm use 17
 
 # Compile npm assets
 sudo npm run prod
