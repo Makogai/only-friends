@@ -24,6 +24,10 @@ sudo php artisan optimize
 # Use node v 17
 # nvm use 17
 
+node -v
+
+sudo npm install
+
 # Compile npm assets
 sudo npm run prod
 
