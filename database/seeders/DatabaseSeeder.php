@@ -15,5 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        // call CountrySeeder
+        $this->call([
+            CountrySeeder::class,
+            PostTypeSeeder::class
+        ]);
     }
 }

@@ -39,3 +39,9 @@ Route::middleware([
 Route::get('makogai', function() {
    return Inertia::render('Dashboard');
 })->name('makogai');
+
+
+
+Route::get('about', function() {
+    return Inertia::render('About');
+ })->name('about');
