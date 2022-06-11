@@ -15,3 +15,4 @@ mix.js('resources/js/ssr.js', 'public/js')
         target: 'node',
         externals: [webpackNodeExternals()],
     });
+    mix.disableNotifications();
