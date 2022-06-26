@@ -57,7 +57,7 @@
 }
 .messenger-sendCard {
     background: #323232;
-    border-top: 1px solid #000;
+    /*border-top: 1px solid #000;*/
 }
 .attachment-preview > p {
     color: #fff;
