@@ -18,8 +18,10 @@ mix.js('resources/js/app.js', 'public/js').vue()
     ])
     .alias({
         '@': 'resources/js',
+        '@img': 'resources/images',
     });
 
 if (mix.inProduction()) {
     mix.version();
 }
+mix.disableNotifications();
