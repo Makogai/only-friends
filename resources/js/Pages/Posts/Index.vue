@@ -1,10 +1,10 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
-
+import test from './test.vue';
 export default {
     name: "Posts",
     components: {
-        AppLayout,
+        AppLayout,test
     },
     props: {
         posts: {
@@ -23,8 +23,13 @@ export default {
 
 <template>
     <AppLayout title="Dashboard">
-        <div v-for="post in posts" class="mt-5">
-            <h1 class="text-blue-300">{{ post.text }}</h1>
-        </div>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                About
+                <test text="CLick ne" ></test>
+            </h2>
+        </template>
+
+        <h1>MARE</h1>
     </AppLayout>
 </template>

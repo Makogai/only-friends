@@ -32,9 +32,13 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard', [
-        'users' => App\Models\User::all()
+        'posts' => App\Models\Post::all()
         ]);
     })->name('dashboard');
+
+    Route::post('/post/text', [\App\Http\Controllers\PostController::class, 'storeText'])->name('post.text');
+    Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
+
 });
 
 Route::get('makogai', function() {
