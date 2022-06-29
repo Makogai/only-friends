@@ -1,6 +1,5 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import test from './test.vue';
 export default {
     name: "Posts",
     components: {

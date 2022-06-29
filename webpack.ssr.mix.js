@@ -10,6 +10,7 @@ mix.js('resources/js/ssr.js', 'public/js')
     .alias({
         '@': 'resources/js',
         ziggy: 'vendor/tightenco/ziggy/dist/index',
+        '@img': 'resources/images',
     })
     .webpackConfig({
         target: 'node',
