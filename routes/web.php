@@ -32,11 +32,12 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard', [
-        'posts' => App\Models\Post::all()
+        'posts' => App\Models\Post::query()->with('user')->get()
         ]);
     })->name('dashboard');
 
     Route::post('/post/text', [\App\Http\Controllers\PostController::class, 'storeText'])->name('post.text');
+    Route::post('/post/media', [\App\Http\Controllers\PostController::class, 'storeMedia'])->name('post.media');
     Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
 
 });

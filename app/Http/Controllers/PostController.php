@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMediaPostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\StoreTextPostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -45,6 +47,32 @@ class PostController extends Controller
     {
         Post::query()->create($request->validated());
         return redirect()->back();
+    }
+
+    public function storeMedia(StoreMediaPostRequest $request)
+    {
+
+        $image_path = '';
+
+//            dd($request->media->extension());
+        if ($request->hasFile('media')) {
+            $image_path = $request->file('media')->store('media', 'public');
+            if($request->media->extension() === 'mp4'){
+                Post::create([
+                    'video' => $image_path,
+                ]);
+            }else {
+                Post::create([
+                    'image' => $image_path,
+                ]);
+            }
+
+        }
+
+
+
+
+        return \redirect()->back();
     }
 
     /**
