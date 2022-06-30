@@ -23,13 +23,18 @@ defineProps({
 });
 
 const isOpen = ref(false)
+const isOpen2 = ref(false)
 
 function closeModal() {
     isOpen.value = false
+    isOpen2.value = false
 }
 
-function openModal() {
-    isOpen.value = true
+function openModal(type) {
+    if (type === 1)
+        isOpen.value = true
+    else
+        isOpen2.value = true
 }
 
 let textPostForm = useForm({
@@ -37,7 +42,31 @@ let textPostForm = useForm({
 })
 
 const submitTextForm = () => {
-    textPostForm.post(route('post.text'));
+    textPostForm.post(route('post.text'), {
+        onSuccess: () => {
+            isOpen.value = false;
+        }
+    });
+}
+
+let mediaPostForm = useForm({
+    media: null
+})
+const media = ref(null);
+const submitMediaForm = () => {
+    if (media.value) {
+        mediaPostForm.media = media.value.files[0];
+    }
+    mediaPostForm.post(route('post.media'), {
+        onSuccess: () => {
+            isOpen2.value = false;
+        }
+    })
+}
+let mediaUrl = ref()
+const previewImage = (e) => {
+    const file = e.target.files[0];
+    mediaUrl.value = URL.createObjectURL(file);
 }
 const showingNavigationDropdown = ref(false);
 
@@ -376,11 +405,12 @@ const logout = () => {
                             leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0"
                         >
-                            <MenuItems class="absolute mt-2 w-56 origin-top divide-y divide-gray-100 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-4"
-                                       style="right: 50%; transform: translateX(50%)">
+                            <MenuItems
+                                class="absolute mt-2 w-56 origin-top divide-y divide-gray-100 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-4"
+                                style="right: 50%; transform: translateX(50%)">
                                 <div class="grid grid-cols-2 place-items-center text-gray-100">
-                                    <div class="bg-primary" @click="openModal">TEXT</div>
-                                    <div class="bg-secondary">MEDIA</div>
+                                    <div class="bg-primary" @click="openModal(1)">TEXT</div>
+                                    <div class="bg-secondary" @click="openModal(2)">MEDIA</div>
                                 </div>
                             </MenuItems>
                         </transition>
@@ -391,9 +421,7 @@ const logout = () => {
             <div>😋</div>
         </div>
 
-                    <main class="max-w-4xl">
-                        <slot />
-                    </main>
+
 
 
         <TransitionRoot :show="isOpen" appear as="template">
@@ -435,16 +463,18 @@ const logout = () => {
                                 <div>
                                     <div class="flex items-start space-x-4">
                                         <div class="flex-shrink-0">
-                                            <img alt=""
-                                                 class="inline-block h-10 w-10 rounded-full"
-                                                 :src="$page.props.user.profile_photo_url">
+                                            <img :src="$page.props.user.profile_photo_url"
+                                                 alt=""
+                                                 class="inline-block h-10 w-10 rounded-full">
                                         </div>
                                         <div class="min-w-0 flex-1">
-                                            <form action="#" class="relative" @submit="submitTextForm">
+                                            <form class="relative" @submit.prevent="submitTextForm">
                                                 <div
                                                     class="border border-gray-300 rounded-lg shadow-sm overflow-hidden focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
                                                     <label class="sr-only" for="comment">Add your comment</label>
-                                                    <textarea v-model="textPostForm.text" id="comment" class="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm" name="comment"
+                                                    <textarea id="comment" v-model="textPostForm.text"
+                                                              class="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm"
+                                                              name="comment"
                                                               placeholder="Add your comment..."
                                                               rows="3"></textarea>
 
@@ -459,10 +489,11 @@ const logout = () => {
 
                                                 <div
                                                     class="absolute bottom-0 inset-x-0 pl-3 pr-2 py-2 flex justify-between">
-                                                   <div></div>
+                                                    <div></div>
                                                     <div class="flex-shrink-0">
-                                                        <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                                type="submit">
+                                                        <button
+                                                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                            type="submit">
                                                             Post
                                                         </button>
                                                     </div>
@@ -477,5 +508,98 @@ const logout = () => {
                 </div>
             </Dialog>
         </TransitionRoot>
+        <TransitionRoot :show="isOpen2" appear as="template">
+            <Dialog as="div" class="relative z-10" @close="closeModal">
+                <TransitionChild
+                    as="template"
+                    enter="duration-300 ease-out"
+                    enter-from="opacity-0"
+                    enter-to="opacity-100"
+                    leave="duration-200 ease-in"
+                    leave-from="opacity-100"
+                    leave-to="opacity-0"
+                >
+                    <div class="fixed inset-0 bg-black bg-opacity-50"/>
+                </TransitionChild>
+
+                <div class="fixed inset-0 overflow-y-auto">
+                    <div
+                        class="flex min-h-full items-center justify-center p-4 text-center"
+                    >
+                        <TransitionChild
+                            as="template"
+                            enter="duration-300 ease-out"
+                            enter-from="opacity-0 scale-95"
+                            enter-to="opacity-100 scale-100"
+                            leave="duration-200 ease-in"
+                            leave-from="opacity-100 scale-100"
+                            leave-to="opacity-0 scale-95"
+                        >
+                            <DialogPanel
+                                class="w-full max-w-xl transform overflow-hidden rounded-2xl bg-gray-800 p-6 text-left align-middle shadow-xl transition-all"
+                            >
+                                <DialogTitle
+                                    as="h3"
+                                    class="text-lg font-medium leading-6 text-gray-200 mb-6"
+                                >
+                                    Add text post
+                                </DialogTitle>
+                                <div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="flex-shrink-0">
+                                            <img :src="$page.props.user.profile_photo_url"
+                                                 alt=""
+                                                 class="inline-block h-10 w-10 rounded-full">
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <form  class="relative" @submit.prevent="submitMediaForm">
+                                                <div class="sm:grid sm:grid-cols-1 sm:gap-4 sm:items-start sm:border-gray-200 sm:pt-5">
+                                                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                                        <div class="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                                            <div class="space-y-1 text-center">
+                                                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                                </svg>
+                                                                <div class="flex text-sm text-gray-600">
+                                                                    <label for="file-upload" class="relative cursor-pointer bg-gray-800 rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                                        <span>Upload a file</span>
+                                                                        <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="previewImage" ref="media" accept=".mp4,.png,.jpg,.jpeg">
+                                                                    </label>
+                                                                    <p class="pl-1">or drag and drop</p>
+                                                                </div>
+                                                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="absolute bottom-0 inset-x-0 pl-3 pr-2 py-2 flex justify-between">
+                                                    <div></div>
+                                                    <div class="flex-shrink-0">
+                                                        <button
+                                                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                            type="submit">
+                                                            Post
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </DialogPanel>
+                        </TransitionChild>
+                    </div>
+                </div>
+            </Dialog>
+        </TransitionRoot>
+
+
     </div>
+
+    <main class="max-w-4xl mx-auto w-full">
+        <slot/>
+    </main>
+
 </template>

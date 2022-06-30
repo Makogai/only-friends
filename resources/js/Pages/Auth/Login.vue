@@ -29,7 +29,7 @@ const submit = () => {
 };
 </script>
 <style>
-img{
+img {
     height: 100%;
     /*width: 100%;*/
     object-fit: cover;
@@ -48,21 +48,34 @@ img{
                 <svg class="-ml-10 absolute" preserveAspectRatio="none" style="height: 100%; width: 100%;"
                      viewBox="0 0 500 150">
                     <path class="fill-blue-900"
-                          d="M15.52,-0.47 C-4.79,78.47 56.15,73.53 17.77,150.50 L500.00,150.00 L500.00,0.00 Z" style="stroke: none;"></path>
+                          d="M15.52,-0.47 C-4.79,78.47 56.15,73.53 17.77,150.50 L500.00,150.00 L500.00,0.00 Z"
+                          style="stroke: none;"></path>
                 </svg>
                 <div class="grid place-items-center py-20 z-20 w-full h-full">
                     <div class="p-5 z-20 w-full px-10">
-                        <div class="px-20 py-10 bg-gray-200 rounded"></div>
-                            <h3 class="text-4xl my-4 my-4 text-center text-blue-300">Login</h3>
-                        <div class="col-span-6 mt-4 sm:col-span-3">
-                            <input v-model="form.login" id="first-name" placeholder="Enter your email/username" autocomplete="given-name" class="text-blue-300 placeholder:text-blue-300 w-full bg-transparent border-blue-500 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" name="first-name"
-                                   type="text"/>
-                        </div>
-                        <div class="col-span-6 mt-4 sm:col-span-3">
-                            <input v-model="form.password" id="first-name" placeholder="Enter your password" autocomplete="given-name" class="text-blue-300 placeholder:text-blue-300 w-full bg-transparent border-blue-500 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" name="first-name"
-                                   type="password"/>
-                        </div>
-                        <button class="bg-blue-300 text-white px-10 py-2 rounded mt-5 w-full" @click="submit">Login</button>
+                        <img alt="" class="mx-auto mb-6 h-16" src="@img/logo.png">
+                        <h3 class="text-4xl my-4 my-4 text-center text-blue-300">Login</h3>
+                        <form @submit.prevent="submit">
+
+                            <div class="col-span-6 mt-4 sm:col-span-3">
+                                <input id="first-name" v-model="form.login" autocomplete="given-name"
+                                       class="text-blue-300 placeholder:text-blue-300 w-full bg-transparent border-blue-500 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                       name="first-name"
+                                       placeholder="Enter your email/username"
+                                       type="text"/>
+                            </div>
+                            <div class="col-span-6 mt-4 sm:col-span-3">
+                                <input id="first-name" v-model="form.password" autocomplete="given-name"
+                                       class="text-blue-300 placeholder:text-blue-300 w-full bg-transparent border-blue-500 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                       name="first-name"
+                                       placeholder="Enter your password"
+                                       type="password"/>
+                            </div>
+                            <button class="bg-blue-300 text-white px-10 py-2 rounded mt-5 w-full" @click="submit">
+                                Login
+                            </button>
+                            <p class="mt-2 text-white">You don't have an account? <Link href="register" class="text-blue-300 underline">Create one here</Link></p>
+                        </form>
                     </div>
                 </div>
             </div>
