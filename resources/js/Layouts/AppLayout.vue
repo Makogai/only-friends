@@ -382,7 +382,7 @@ const logout = () => {
                        placeholder="Search..." type="search">
             </div>
         </div>
-        <div class=""><img alt="" src="@img/logo.png"></div>
+        <div class=""><img alt="" src="@img/logo1.png"></div>
         <div class=" grid grid-cols-5 place-content-center">
             <div>😊</div>
             <div>😍</div>
