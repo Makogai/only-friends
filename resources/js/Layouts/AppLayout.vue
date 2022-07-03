@@ -10,6 +10,7 @@ import JetNavLink from '@/Jetstream/NavLink.vue';
 import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue';
 import {Menu, MenuButton, MenuItems, MenuItem} from '@headlessui/vue'
 import {PlusIcon} from '@heroicons/vue/solid'
+import {debounce} from "lodash";
 import {
     TransitionRoot,
     TransitionChild,
@@ -69,6 +70,20 @@ const previewImage = (e) => {
     mediaUrl.value = URL.createObjectURL(file);
 }
 const showingNavigationDropdown = ref(false);
+
+let searchField = ref();
+let searchData = ref([])
+
+const search = debounce((val) => {
+    axios.get(route('search'), {
+        params: {
+            term: searchField.value
+        }
+    }).then(res => {
+        searchData.value = res.data;
+    })
+    console.log(searchField.value)
+}, 1200)
 
 const switchToTeam = (team) => {
     Inertia.put(route('current-team.update'), {
@@ -376,13 +391,29 @@ const logout = () => {
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </button>
                 </span>
-                <input autocomplete="off"
+                <input v-model="searchField"
+                       autocomplete="off"
                        class="py-2 text-sm text-white bg-gray-900 rounded-md pl-10 focus:outline-none "
                        name="q"
-                       placeholder="Search..." type="search">
+                       placeholder="Search..."
+                       type="search" @input="search">
+                <div v-if="searchData.length > 0" class="absolute left-0 mt-3 w-full bg-white rounded bg-gray-800 px-3">
+                    <Link v-for="user in searchData" class="mt-2 flex" :href="route('users.show', {user:user.id})">
+                        <img :src="user.profile_photo_url" alt="" class="h-10 w-10 rounded-full">
+                        <div class="ml-3">
+                            <p class="font-semibold">@{{ user.username }}</p>
+                            <p>{{user.name}}</p>
+                        </div>
+                    </Link>
+                </div>
             </div>
         </div>
-        <div class=""><img alt="" src="@img/logo.png"></div>
+        <div class="">
+            <Link href="/">
+
+            <img alt="" src="@img/logo.png">
+            </Link>
+        </div>
         <div class=" grid grid-cols-5 place-content-center">
             <div>😊</div>
             <div>😍</div>
@@ -420,8 +451,6 @@ const logout = () => {
             <div>🤡</div>
             <div>😋</div>
         </div>
-
-
 
 
         <TransitionRoot :show="isOpen" appear as="template">
@@ -552,22 +581,34 @@ const logout = () => {
                                                  class="inline-block h-10 w-10 rounded-full">
                                         </div>
                                         <div class="min-w-0 flex-1">
-                                            <form  class="relative" @submit.prevent="submitMediaForm">
-                                                <div class="sm:grid sm:grid-cols-1 sm:gap-4 sm:items-start sm:border-gray-200 sm:pt-5">
+                                            <form class="relative" @submit.prevent="submitMediaForm">
+                                                <div
+                                                    class="sm:grid sm:grid-cols-1 sm:gap-4 sm:items-start sm:border-gray-200 sm:pt-5">
                                                     <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                                        <div class="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                                        <div
+                                                            class="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                                                             <div class="space-y-1 text-center">
-                                                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                                <svg aria-hidden="true"
+                                                                     class="mx-auto h-12 w-12 text-gray-400" fill="none"
+                                                                     stroke="currentColor" viewBox="0 0 48 48">
+                                                                    <path
+                                                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"/>
                                                                 </svg>
                                                                 <div class="flex text-sm text-gray-600">
-                                                                    <label for="file-upload" class="relative cursor-pointer bg-gray-800 rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                                    <label class="relative cursor-pointer bg-gray-800 rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                                                           for="file-upload">
                                                                         <span>Upload a file</span>
-                                                                        <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="previewImage" ref="media" accept=".mp4,.png,.jpg,.jpeg">
+                                                                        <input id="file-upload" ref="media"
+                                                                               accept=".mp4,.png,.jpg,.jpeg" class="sr-only"
+                                                                               name="file-upload" type="file"
+                                                                               @change="previewImage">
                                                                     </label>
                                                                     <p class="pl-1">or drag and drop</p>
                                                                 </div>
-                                                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to
+                                                                    10MB</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -598,7 +639,7 @@ const logout = () => {
 
     </div>
 
-    <main class="max-w-4xl mx-auto w-full">
+    <main class="max-w-5xl mx-auto w-full">
         <slot/>
     </main>
 

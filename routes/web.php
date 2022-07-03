@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Models\Post;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,14 +35,42 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
+
+
+        $friendsIds = Auth::user()->getFriends()->map(function ($friend) {
+            return $friend->id;
+        })->toArray();
+        $friendsIds[] = Auth::id();
+        $posts = Post::query()
+            ->with('user')
+            ->withCount('comments')
+            ->where(function ($query) use ($friendsIds) {
+                $query->whereIn("user_id", $friendsIds)
+                    ->orWhere(function ($subquery) {
+                        $subquery
+                            ->whereIn("user_id", Auth::user()->getFriendsOfFriends()->pluck('id'));
+                    });
+
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+
         return Inertia::render('Dashboard', [
-        'posts' => App\Models\Post::query()->with('user')->get()
+        'posts' => $posts
         ]);
     })->name('dashboard');
 
-    Route::post('/post/text', [\App\Http\Controllers\PostController::class, 'storeText'])->name('post.text');
-    Route::post('/post/media', [\App\Http\Controllers\PostController::class, 'storeMedia'])->name('post.media');
-    Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
+    Route::post('/post/text', [PostController::class, 'storeText'])->name('post.text');
+    Route::post('/post/media', [PostController::class, 'storeMedia'])->name('post.media');
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/search', [PostController::class, 'search'])->name('search');
+
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::post('/users/add', [UserController::class, 'addFriend'])->name('users.add');
+    Route::get('/like-unlike/{post}', [PostController::class, 'likeUnlike'])->name("post.like-unlike");
 
 });
 

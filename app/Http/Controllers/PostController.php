@@ -7,7 +7,9 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\StoreTextPostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\User;
+//use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -79,11 +81,13 @@ class PostController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Post $post)
     {
-        //
+        return Inertia::render('Posts/Show', [
+            "post" => $post
+        ]);
     }
 
     /**
@@ -95,6 +99,10 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         //
+    }
+
+    public function search(Request $request){
+        return User::query()->where('username', 'LIKE', "%$request->term%")->get();
     }
 
     /**
@@ -118,5 +126,11 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function likeUnlike(Request $request, Post $post)
+    {
+        $request->user()->toggleLike($post);
+        return redirect()->back();
     }
 }
