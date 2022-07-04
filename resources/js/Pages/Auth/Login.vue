@@ -1,5 +1,6 @@
 <script setup>
 import {Link, useForm} from '@inertiajs/inertia-vue3';
+import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -30,7 +31,7 @@ img {
 </style>
 <template>
     <div class="grid place-items-center h-screen">
-        <div class="bg-blue-900 rounded-l-3xl grid md:grid-cols-2 sm:grid-cols-1 max-w-5xl overflow-hidden">
+        <div class="bg-[#000016] rounded-l-3xl grid md:grid-cols-2 sm:grid-cols-1 max-w-5xl overflow-hidden">
             <div class="img ">
 
                 <img alt=""
@@ -40,7 +41,7 @@ img {
             <div bis_skin_checked="1" class="z-10 relative w-full" style="height: auto;">
                 <svg class="-ml-10 absolute" preserveAspectRatio="none" style="height: 100%; width: 100%;"
                      viewBox="0 0 500 150">
-                    <path class="fill-blue-900"
+                    <path class="fill-[#000016]"
                           d="M15.52,-0.47 C-4.79,78.47 56.15,73.53 17.77,150.50 L500.00,150.00 L500.00,0.00 Z"
                           style="stroke: none;"></path>
                 </svg>
@@ -64,6 +65,7 @@ img {
                                        placeholder="Enter your password"
                                        type="password"/>
                             </div>
+                                    <JetValidationErrors class="mb-4 mt-4" />
                             <button class="bg-blue-300 text-white px-10 py-2 rounded mt-5 w-full" @click="submit">
                                 Login
                             </button>
