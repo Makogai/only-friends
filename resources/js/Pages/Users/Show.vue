@@ -31,8 +31,16 @@ export default {
                 }
             })
         }
+        const removeFriend = (user_id) => {
+            addForm.post(route('users.remove'), {
+                onSuccess: () => {
+                    console.log("REMOVED")
+                }
+            })
+        }
         return {
-            addFriend
+            addFriend,
+            removeFriend
         };
     },
 }

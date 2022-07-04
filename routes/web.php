@@ -71,6 +71,7 @@ Route::middleware([
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/me', [UserController::class, 'me'])->name('users.me');
     Route::post('/users/add', [UserController::class, 'addFriend'])->name('users.add');
+    Route::post('/users/remove', [UserController::class, 'removeFriend'])->name('users.remove');
     Route::get('/like-unlike/{post}', [PostController::class, 'likeUnlike'])->name("post.like-unlike");
 
 });

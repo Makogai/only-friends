@@ -41,4 +41,11 @@ class UserController extends Controller
 
         return redirect()->back();
     }
+    public function removeFriend(Request $request){
+        $friend = User::query()->findOrFail( $request->user_id );
+//        dd($friend);
+        $request->user()->unfriend( $friend );
+
+        return redirect()->back();
+    }
 }
