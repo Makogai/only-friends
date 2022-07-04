@@ -37,6 +37,17 @@ export default {
         /* outer white */ -1px 0 5px #f0f,
         /* outer left magenta */ 1px 0 5px #0ff;
 }
+.imgglow{
+      box-shadow:
+    inset 0 0 700px #fff,
+    inset 0px 0 1px #fff,
+    inset 0px 0 0px #fff,
+    inset 0px 0 0px #fff,
+    inset -2px 0 100px #fff,
+    0 0 0.5px #fff,
+    -1px 0 15px #fff,
+    1px 0 3px #0ff;
+}
 </style>
 <template>
     <AppLayout title="Dashboard">
@@ -58,7 +69,7 @@ export default {
                             <p>...</p>
                         </div>
                     </div>
-                    <div class="w-[480px] h-[128px] border rounded-2xl ml-16 mt-4">
+                    <div class="w-[430px] border rounded-2xl ml-16 mt-4">
                         <div class="ml-2 mt-1 text-white">
                             <div class=" ">
 
@@ -74,14 +85,20 @@ export default {
                                 <!--                </svg>-->
                             </div>
                         </div>
-                        <div class="text-white mx-14 pt-3 text-center">
-                            <p>{{ post.text }}</p>
+                        <div class="text-white mx-14 text-center mb-4">
+                            <p class="pb-3">{{ post.text }}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div v-else-if="post.image">
-                <img :src="'storage/'+post.image" alt="">
+                <div class="grid grid-cols-6 pl-5 pr-20 p-5">
+                    <dir></dir>
+                    <div class="bg-blue-300 col-span-5 overflow-hidden  rounded-3xl glow h-[600px] max-h-[800px]">
+                        <img :src="'storage/'+post.image" alt="" class="flex object-fill h-[600px] w-screen" style="object-fit:cover">
+                    </div>
+                </div>
+                <!-- <img :src="'storage/'+post.image" alt=""> -->
             </div>
             <div v-else>
                 <video :src="'storage/'+post.video"></video>
