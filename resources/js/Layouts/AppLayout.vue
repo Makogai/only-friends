@@ -75,7 +75,7 @@ let searchField = ref();
 let searchData = ref([])
 
 const search = debounce((val) => {
-    axios.get(route('search'), {
+    axios.get(route('user.search'), {
         params: {
             term: searchField.value
         }
