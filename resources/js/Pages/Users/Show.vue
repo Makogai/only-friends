@@ -75,7 +75,7 @@ export default {
         </div>
         <div class="max-w-6xl mx-auto grid place-items-center text-white mt-20 h-96 bg-gray-800">
             <p class="text-white pa-6" v-if="!isFriend">ADD FRIEND TO SEE POSTS</p>
-            <div v-if="user.posts.length > 0" class="grid grid-cols-3 gap-2">
+            <div v-if="user.posts.length > 0 && isFriend" class="grid grid-cols-3 gap-2">
                 <div v-for="post in user.posts" class="border">
                     <div v-if="post.image">
                         <img :src="'/storage/'+post.image" alt="" class=" rounded-2xl">
