@@ -73,7 +73,7 @@ export default {
                         <img :src="'/storage/'+post.image" alt="" class=" rounded-2xl">
                     </div>
                     <div v-if="post.video">
-                        <video :src="'/storage/'+post.video" alt="" class="h-34 w-full rounded-2xl"></video>
+                        <video controls :src="'/storage/'+post.video" alt="" class="h-34 w-full rounded-2xl"></video>
                     </div>
                     <div v-else class="grid place-items-center grid-cols-1 h-full">
                         <p class="text-center">
