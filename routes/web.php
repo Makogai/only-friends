@@ -66,7 +66,7 @@ Route::middleware([
     Route::post('/post/media', [PostController::class, 'storeMedia'])->name('post.media');
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
-    Route::get('/search', [PostController::class, 'search'])->name('search');
+    Route::get('/search', [PostController::class, 'search'])->name('user.search');
 
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::post('/users/add', [UserController::class, 'addFriend'])->name('users.add');
