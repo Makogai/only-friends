@@ -1,11 +1,12 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm, Link} from "@inertiajs/inertia-vue3";
 
 export default {
     name: "User",
     components: {
-        AppLayout
+        AppLayout,
+        Link
     },
     props: {
         user: {
@@ -15,10 +16,6 @@ export default {
         friendsCount: {
             type: Number
         },
-        isFriend: {
-            type: Boolean,
-            default: false
-        }
     },
     setup(props) {
         let addForm = useForm({
@@ -59,14 +56,10 @@ export default {
                 </div>
             </div>
             <div class="pl-[350px] ">
-                <button v-if="!isFriend" class="border-white border text-white text-lg px-4 py-1 rounded-3xl w-auto h-auto" @click="addFriend(user.id)">Add friend
-                </button>
-                <button v-else class="border-white border text-white text-lg px-4 py-1 rounded-3xl w-auto h-auto" @click="removeFriend(user.id)">Remove friend
-                </button>
+                <Link :href="route('profile.show')" class="border-white border text-white text-lg px-4 py-1 rounded-3xl w-auto h-auto">Edit profile</Link>
             </div>
         </div>
-        <div class="max-w-6xl mx-auto grid place-items-center text-white mt-20 h-96 bg-gray-800">
-            <p class="text-white pa-6" v-if="!isFriend">ADD FRIEND TO SEE POSTS</p>
+        <div class="max-w-6xl mx-auto grid place-items-center text-white mt-20 ">
             <div v-if="user.posts.length > 0" class="grid grid-cols-3 gap-2">
                 <div v-for="post in user.posts" class="border">
                     <div v-if="post.image">
@@ -82,7 +75,7 @@ export default {
                     </div>
                 </div>
             </div>
-            <p v-else>This user doesn't have any posts</p>
+            <p v-else>You dont have any posts</p>
         </div>
     </AppLayout>
 </template>

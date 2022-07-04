@@ -69,6 +69,7 @@ Route::middleware([
     Route::get('/search', [PostController::class, 'search'])->name('user.search');
 
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/me', [UserController::class, 'me'])->name('users.me');
     Route::post('/users/add', [UserController::class, 'addFriend'])->name('users.add');
     Route::get('/like-unlike/{post}', [PostController::class, 'likeUnlike'])->name("post.like-unlike");
 

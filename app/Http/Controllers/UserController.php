@@ -22,6 +22,17 @@ class UserController extends Controller
         ]);
     }
 
+    public function me(){
+        $friends = Auth::user()->getFriends();
+//        $friends->find()
+//        dd($friends);/
+        Auth::user()->load('posts');
+        return Inertia::render('Users/Me', [
+            "user" => Auth::user(),
+            "friendsCount" => Auth::user()->getFriendsCount(),
+        ]);
+    }
+
     public function addFriend(Request $request){
         $friend = User::query()->findOrFail( $request->user_id );
 //        dd($friend);

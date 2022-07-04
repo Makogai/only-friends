@@ -1,12 +1,5 @@
 <script setup>
-import {Head, Link, useForm} from '@inertiajs/inertia-vue3';
-import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue';
-import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue';
-import JetButton from '@/Jetstream/Button.vue';
-import JetInput from '@/Jetstream/Input.vue';
-import JetCheckbox from '@/Jetstream/Checkbox.vue';
-import JetLabel from '@/Jetstream/Label.vue';
-import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
+import {Link, useForm} from '@inertiajs/inertia-vue3';
 
 defineProps({
     canResetPassword: Boolean,
@@ -53,7 +46,7 @@ img {
                 </svg>
                 <div class="grid place-items-center py-20 z-20 w-full h-full">
                     <div class="p-5 z-20 w-full px-10">
-                        <img alt="" class="mx-auto mb-6 h-16" src="@img/logo1.png">
+                        <img alt="" class="mx-auto mb-6 h-24" src="@img/logo1.png">
                         <h3 class="text-4xl my-4 my-4 text-center text-blue-300">Login</h3>
                         <form @submit.prevent="submit">
 
@@ -74,7 +67,7 @@ img {
                             <button class="bg-blue-300 text-white px-10 py-2 rounded mt-5 w-full" @click="submit">
                                 Login
                             </button>
-                            <p class="mt-2 text-white">You don't have an account? <Link href="register" class="text-blue-300 underline">Create one here</Link></p>
+                            <p class="mt-2 text-white">You don't have an account? <Link :href="route('register')" class="text-blue-300 underline">Create one here</Link></p>
                         </form>
                     </div>
                 </div>
