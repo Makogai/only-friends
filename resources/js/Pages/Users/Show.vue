@@ -65,7 +65,7 @@ export default {
                 </button>
             </div>
         </div>
-        <div class="max-w-6xl mx-auto grid place-items-center text-white mt-20 test h-96 bg-gray-800">
+        <div class="max-w-6xl mx-auto grid place-items-center text-white mt-20 h-96 bg-gray-800">
             <p class="text-white pa-6" v-if="!isFriend">ADD FRIEND TO SEE POSTS</p>
             <p v-if="user.posts.length > 0">This user has <b>{{user.posts.length}}</b> posts</p>
             <p v-else>This user doesn't have any posts</p>

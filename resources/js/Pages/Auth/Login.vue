@@ -53,7 +53,7 @@ img {
                 </svg>
                 <div class="grid place-items-center py-20 z-20 w-full h-full">
                     <div class="p-5 z-20 w-full px-10">
-                        <img alt="" class="mx-auto mb-6 h-16" src="@img/logo.png">
+                        <img alt="" class="mx-auto mb-6 h-16" src="@img/logo1.png">
                         <h3 class="text-4xl my-4 my-4 text-center text-blue-300">Login</h3>
                         <form @submit.prevent="submit">
 
