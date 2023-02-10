@@ -60,8 +60,13 @@ Route::get('photos', function () {
             'img_src' => url('photos-api/' . $file)
         ];
     }
-    // Set content type to text/plain
-    header('Content-Type: text/plain;charset=utf-8');
+
+
+    // Set content type to text/plain to prevent browser from rendering the JSON
+    return response($returnJson, 200)->header('Content-Type', 'text/plain');
+
+    // Return the JSON
+
     return $returnJson;
 //    return response()->json($returnJson);
 
