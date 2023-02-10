@@ -46,3 +46,21 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post("/change-password", [UserController::class, 'changePassword']);
     });
 });
+
+Route::get('photos', function () {
+    // Loop through all the files in the directory and return them as an array
+    $files = scandir(public_path('photos-api'));
+    $files = array_values(array_filter($files, function ($file) {
+        return !in_array($file, ['.', '..']);
+    }));
+    $returnJson = [];
+    foreach ($files as $file) {
+        $returnJson[] = [
+            'id' => rand(1, 1000),
+            'url' => url('photos-api/' . $file)
+        ];
+    }
+    return $returnJson;
+//    return response()->json($returnJson);
+
+});
