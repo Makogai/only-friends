@@ -57,7 +57,7 @@ Route::get('photos', function () {
     foreach ($files as $file) {
         $returnJson[] = [
             'id' => rand(1, 1000),
-            'url' => url('photos-api/' . $file)
+            'img_src' => url('photos-api/' . $file)
         ];
     }
     return $returnJson;
