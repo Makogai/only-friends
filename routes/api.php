@@ -1,4 +1,4 @@
-`<?php
+<?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
